@@ -1,0 +1,10 @@
+{{!-- All other templates for handlebars go in this file --}}
+
+<ol class="post-list">
+  {{#each posts as |post|}}
+  <li>
+    {{!-- original article elements that were here got shifted to post-info.handlebars --}}
+     {{> post-info post }}
+  </li>
+  {{/each}}
+</ol>
