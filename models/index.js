@@ -15,6 +15,7 @@ Post.belongsTo(User, {
 
 // create associations that allow User & Post models to query each other in context of a Vote
 // use of both foreign keys prevents 1 user from voting on 1 post many times
+// needed (???)
 User.belongsToMany(Post, {
     through: Vote,
     as: 'voted_posts',

@@ -5,6 +5,7 @@ class Comment extends Model {}
 
 // comment table to hold text of the comment, the user id of the post creator, and the id for the user the initial post belongs to
 Comment.init(
+      // define Comment schema
     {
         id: {
           type: DataTypes.INTEGER,
@@ -35,6 +36,7 @@ Comment.init(
         }
       },
   {
+     // configure metadata & naming conventions
     sequelize,
     freezeTableName: true,
     underscored: true,
