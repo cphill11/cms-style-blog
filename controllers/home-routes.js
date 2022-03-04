@@ -1,3 +1,4 @@
+// not needed (???)
 // home-routes.js contains all user-facing routes (homepage & login)
 const router = require('express').Router();
 const sequelize = require("../config/connection");

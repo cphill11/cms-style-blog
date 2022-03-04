@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { Comment } = require("../../models");
 
+// get all comments
 router.get("/", (req, res) => {
   Comment.findAll()
     .then((dbCommentData) => res.json(dbCommentData))
@@ -10,6 +11,21 @@ router.get("/", (req, res) => {
     });
 });
 
+// get one comment; is this needed (??)
+router.get('/:id', (req, res) => {
+  Comment.findAll({
+          where: {
+              id: req.params.id
+          }
+      })
+      .then(dbCommentData => res.json(dbCommentData))
+      .catch(err => {
+          console.log(err);
+          res.status(500).json(err);
+      })
+});
+
+// create new comment
 router.post("/", (req, res) => {
   // check the session; ensures only logged-in users interact w/ db
   if (req.session) {
@@ -27,6 +43,7 @@ router.post("/", (req, res) => {
   }
 });
 
+// delete comment
 router.delete("/:id", (req, res) => {
   Comment.destroy({
     where: {

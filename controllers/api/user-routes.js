@@ -58,9 +58,6 @@ router.get("/:id", (req, res) => {
 
 // POST /api/users
 router.post("/", (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
-  // .create() is Sequalize's "insert data" method
-  // post carries the request param in the req.body (MORE SECURE THAN IN 'GET' METHOD!)
   User.create({
     username: req.body.username,
     email: req.body.email,
@@ -79,13 +76,11 @@ router.post("/", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  // expects {email: 'lernantino@gmail.com', password: 'password1234'}
-  // queries the USER table using the findOne() method for email entered by user
   User.findOne({
     where: {
       email: req.body.email,
     },
-    // result of query above is passed as dbUserData to the .then() part of this method
+    // result of query above is passed as dbUserData to the .then()
   }).then((dbUserData) => {
     if (!dbUserData) {
       res.status(400).json({ message: "No user with that email address!" });
@@ -125,10 +120,6 @@ router.post("/logout", (req, res) => {
 
 // PUT /api/users/1
 router.put("/:id", (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
-
-  // if req.body has exact key/value pairs to match the model, you can just use `req.body` instead
-
   // .update() is Sequalize's combine "create and look up data" method
   User.update(req.body, {
     // pass in req.body instead to only update what's passed through
@@ -151,7 +142,6 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE /api/users/1
-// .delete() is Sequalize's combine "look up data & delete it" method
 router.delete("/:id", (req, res) => {
   User.destroy({
     where: {

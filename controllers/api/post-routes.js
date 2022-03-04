@@ -3,6 +3,7 @@ const sequelize = require("../../config/connection");
 const { Post, User, Vote, Comment } = require("../../models");
 const withAuth = require("../utils/auth");
 
+// is this ok (??)
 // get all users
 router.get("/", (req, res) => {
   Post.findAll({
@@ -12,6 +13,7 @@ router.get("/", (req, res) => {
       "title",
       "created_at",
       [
+        // is this needed (??)
         sequelize.literal(
           "(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)"
         ),
@@ -43,6 +45,7 @@ router.get("/", (req, res) => {
     });
 });
 
+// get one user
 router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
@@ -54,6 +57,7 @@ router.get("/:id", (req, res) => {
       "title",
       "created_at",
       [
+         // is this needed (??)
         sequelize.literal(
           "(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)"
         ),
@@ -80,8 +84,8 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// create new post
 router.post("/", (req, res) => {
-  // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
   Post.create({
     title: req.body.title,
     post_url: req.body.post_url,
@@ -94,12 +98,9 @@ router.post("/", (req, res) => {
     });
 });
 
-// PUT /api/posts/upvote; MUST go before /:id or Express.js will confuse this portion
+// PUT /api/posts/upvote (needed???)
 router.put("/upvote", (req, res) => {
-  // custom static method created in models/Post.js
-  // make sure the session exists first
   if (req.session) {
-    // pass session id along with all destructured properties on req.body
     Post.upvote(
       { ...req.body, user_id: req.session.user_id },
       { Vote, Comment, User }
@@ -112,6 +113,7 @@ router.put("/upvote", (req, res) => {
   }
 });
 
+// update post
 router.put("/:id", (req, res) => {
   Post.update(
     {
@@ -136,6 +138,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
+// delete post
 router.delete("/:id", withAuth, (req, res) => {
   Post.destroy({
     where: {
