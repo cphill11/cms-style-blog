@@ -4,7 +4,7 @@ const apiRoutes = require("./api");
 const homeRoutes = require("./home-routes.js");
 
 // use to prefix all dashboard views with /dashboard
-const dashboardRoutes = require("./dashboard-routes.js");
+const dashboardRoutes = require("./dashboard-route");
 
 router.use("/", homeRoutes);
 router.use("/api", apiRoutes);

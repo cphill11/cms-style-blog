@@ -25,8 +25,8 @@ const sess = {
 app.use(session(sess));
 
 // // implement helpers from test fxns
-// const helpers = require('./utils/helpers');
-// const hbs = exphbs.create({ helpers });
+const helpers = require('./utils/helpers');
+const hbs = exphbs.create({ helpers });
 
 // connects to handlebar template; handlebar template lives in view/layouts/main.handlebars
 app.engine('handlebars', hbs.engine);

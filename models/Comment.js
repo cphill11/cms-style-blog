@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-
 class Comment extends Model {}
 
 // comment table to hold text of the comment, the user id of the post creator, and the id for the user the initial post belongs to

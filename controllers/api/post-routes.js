@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const sequelize = require("../../config/connection");
-const { Post, User, Vote, Comment } = require("../../models");
-const withAuth = require("../utils/auth");
+const { Post, User, Comment } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // is this ok (??)
 // get all users
@@ -12,13 +12,6 @@ router.get("/", (req, res) => {
       "post_url",
       "title",
       "created_at",
-      [
-        // is this needed (??)
-        sequelize.literal(
-          "(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)"
-        ),
-        "vote_count",
-      ],
     ],
     // ensures most current post is shown first
     order: [["created_at", "DESC"]],
@@ -56,13 +49,6 @@ router.get("/:id", (req, res) => {
       "post_url",
       "title",
       "created_at",
-      [
-         // is this needed (??)
-        sequelize.literal(
-          "(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)"
-        ),
-        "vote_count",
-      ],
     ],
     include: [
       {
@@ -96,21 +82,6 @@ router.post("/", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-});
-
-// PUT /api/posts/upvote (needed???)
-router.put("/upvote", (req, res) => {
-  if (req.session) {
-    Post.upvote(
-      { ...req.body, user_id: req.session.user_id },
-      { Vote, Comment, User }
-    )
-      .then((updatedVoteData) => res.json(updatedVoteData))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  }
 });
 
 // update post
