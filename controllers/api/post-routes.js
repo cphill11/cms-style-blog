@@ -1,16 +1,20 @@
 const router = require("express").Router();
-const sequelize = require("../../config/connection");
 const { Post, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
-// get all users
+// get all posts
 router.get("/", (req, res) => {
   Post.findAll({
-    attributes: ["id", "post_url", "title", "created_at"],
+    attributes: [
+      "id",
+      //"post_url",
+      "content",
+      "title",
+      "created_at"
+    ],
     // ensures most current post is shown first
     order: [["created_at", "DESC"]],
     include: [
-      // include the Comment model here:
       {
         model: Comment,
         attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
@@ -32,13 +36,19 @@ router.get("/", (req, res) => {
     });
 });
 
-// get one user
+// get one post
 router.get("/:id", (req, res) => {
   Post.findOne({
     where: {
       id: req.params.id,
     },
-    attributes: ["id", "post_url", "title", "created_at"],
+    attributes: [
+      "id",
+      //"post_url",
+      "content",
+      "title",
+      "created_at"
+    ],
     include: [
       {
         model: User,
@@ -60,7 +70,7 @@ router.get("/:id", (req, res) => {
 });
 
 // create new post
-router.post("/", (req, res) => {
+router.post("/", withAuth, (req, res) => {
   Post.create({
     title: req.body.title,
     post_url: req.body.post_url,
@@ -74,7 +84,7 @@ router.post("/", (req, res) => {
 });
 
 // update post
-router.put("/:id", (req, res) => {
+router.put("/:id", withAuth, (req, res) => {
   Post.update(
     {
       title: req.body.title,
