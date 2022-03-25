@@ -1,9 +1,14 @@
 const router = require("express").Router();
 const { Comment } = require("../../models");
+const withAuth = require('../../utils/auth');
 
 // get all comments
 router.get("/", (req, res) => {
-  Comment.findAll()
+  Comment.findAll({
+    where: {
+      id: req.params.id,
+    },
+  })
     .then((dbCommentData) => res.json(dbCommentData))
     .catch((err) => {
       console.log(err);
@@ -11,8 +16,8 @@ router.get("/", (req, res) => {
     });
 });
 
-// get one comment; is this needed (??)
-router.get("/:id", (req, res) => {
+// get one comment
+router.get("/:id", withAuth, (req, res) => {
   Comment.findAll({
     where: {
       id: req.params.id,
@@ -26,7 +31,7 @@ router.get("/:id", (req, res) => {
 });
 
 // create new comment
-router.post("/", (req, res) => {
+router.post("/", withAuth, (req, res) => {
   // check the session; ensures only logged-in users interact w/ db
   if (req.session) {
     Comment.create({
@@ -44,7 +49,7 @@ router.post("/", (req, res) => {
 });
 
 // delete comment
-router.delete("/:id", (req, res) => {
+router.delete("/:id", withAuth, (req, res) => {
   Comment.destroy({
     where: {
       id: req.params.id,
