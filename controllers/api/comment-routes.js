@@ -12,17 +12,17 @@ router.get("/", (req, res) => {
 });
 
 // get one comment; is this needed (??)
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   Comment.findAll({
-          where: {
-              id: req.params.id
-          }
-      })
-      .then(dbCommentData => res.json(dbCommentData))
-      .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-      })
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((dbCommentData) => res.json(dbCommentData))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 // create new comment

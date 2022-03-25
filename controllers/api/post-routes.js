@@ -3,16 +3,10 @@ const sequelize = require("../../config/connection");
 const { Post, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
-// is this ok (??)
 // get all users
 router.get("/", (req, res) => {
   Post.findAll({
-    attributes: [
-      "id",
-      "post_url",
-      "title",
-      "created_at",
-    ],
+    attributes: ["id", "post_url", "title", "created_at"],
     // ensures most current post is shown first
     order: [["created_at", "DESC"]],
     include: [
@@ -44,12 +38,7 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
-    attributes: [
-      "id",
-      "post_url",
-      "title",
-      "created_at",
-    ],
+    attributes: ["id", "post_url", "title", "created_at"],
     include: [
       {
         model: User,

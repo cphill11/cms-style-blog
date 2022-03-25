@@ -106,8 +106,7 @@ router.post("/logout", (req, res) => {
       // message session successfully destroyed
       res.status(204).end();
     });
-  }
-  else {
+  } else {
     res.status(404).end();
   }
 });
