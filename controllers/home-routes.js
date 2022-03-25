@@ -1,16 +1,17 @@
 // home-routes.js contains all user-facing routes (homepage & login)
 const router = require('express').Router();
-const sequelize = require("../config/connection");
+// const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 
 router.get("/", (req, res) => {
   Post.findAll({
-    // attributes: [
-    //   "id",
-    //   "post_url",
-    //   "title",
-    //   "created_at",
-    //  ],
+    attributes: [
+      "id",
+      //"post_url",
+      "content",
+      "title",
+      "created_at",
+     ],
     
     include: [
       {
@@ -49,7 +50,8 @@ router.get("/post/:id", (req, res) => {
     },
     attributes: [
       "id",
-      "post_url",
+      //"post_url",
+      "content",
       "title",
       "created_at",
     ],
@@ -95,7 +97,12 @@ router.get("/login", (req, res) => {
     res.redirect("/");
     return;
   }
-
   res.render("login");
 });
+
+// connection for signup functionality as an option on login page
+router.get("/signup", (req, res) => {
+  res.render("dignup");
+})
+
 module.exports = router;
