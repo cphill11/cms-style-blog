@@ -64,6 +64,7 @@ router.post("/", (req, res) => {
   })
     // gives server access to user's user_id, username, & a boolean confirming user is logged in
     .then((dbUserData) => {
+      console.log(dbUserData);
       req.session.save(() => {
         req.session.user_id = dbUserData.id;
         req.session.username = dbUserData.username;
@@ -71,8 +72,12 @@ router.post("/", (req, res) => {
 
         res.json(dbUserData);
       });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
     });
-});
+  });
 
 router.post("/login", (req, res) => {
   User.findOne({
@@ -81,6 +86,7 @@ router.post("/login", (req, res) => {
     },
     // result of query above is passed as dbUserData to the .then()
   }).then((dbUserData) => {
+    console.log("login");
     if (!dbUserData) {
       res.status(400).json({ message: "No user with that email address!" });
       return;

@@ -4,11 +4,12 @@ const withAuth = require("../utils/auth");
 
 // GET route for main page; withAuth calls next anonymous fxn
 router.get("/", withAuth, (req, res) => {
+  console.log(req.session);
   Post.findAll({
     // add where object to findAll() to only display posts created by the logged in user
     where: {
       // use the ID from the session
-      user_id: req.session.user_id,
+      id: req.session.user_id,
     },
     attributes: [
       "id",
@@ -31,6 +32,21 @@ router.get("/", withAuth, (req, res) => {
       },
     ],
   })
+  .then((dbPostData) => {
+    // pass a single post object into the homepage template
+    const posts = dbPostData.map((post) => post.get({ plain: true }));
+    res.render("homepage", {
+      posts,
+      loggedIn: req.session.loggedIn,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+
+
+
   // render edit-post.handlebars template, passing in data from same Post.findOne() query used in /post/:id home route
   router.get('/edit/:id', withAuth, (req, res) => {
     Post.findByPk(req.params.id, {

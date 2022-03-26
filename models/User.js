@@ -33,7 +33,10 @@ User.init(
         isEmail: true,
       },
     },
-
+    content: {
+      type: DataTypes.STRING,
+      allowNule: false,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
