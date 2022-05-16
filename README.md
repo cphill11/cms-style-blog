@@ -63,9 +63,7 @@ THEN I am able to view comments but I am prompted to log in again before I can a
 
 
 ## Website
-Github: https://cphill11.github.io/cms-style-blog/
-
-Heroku link:
+Github: https://github.com/cphill11/cms-style-blog.git
 
 ## Image
 
